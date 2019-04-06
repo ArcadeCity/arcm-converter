@@ -1,41 +1,106 @@
-var nbt = require('prismarine-nbt')
 var fs = require('fs')
 var zlib = require('zlib')
+// var ProtoDef = require('protodef').ProtoDef
+const ProtoDef = require('protodef').ProtoDef
+const Serializer = require('protodef').Serializer
+const Parser = require('protodef').Parser
 
-fs.readFile('arcd-car6.schematic', function(error, data) {
-    if (error) throw error;
+var model = {
+    width: 2, // x
+    height: 2, // y
+    length: 2, // z
+    blocks: [1,1,1,0,1,1,1,1]
+}
 
-    nbt.parse(data, function(error, data) {
+// const protocol = {
+//
+// }
+//
+// const proto = new ProtoDef()
+// proto.addTypes(protocol)
+//
+// const parser = new Parser(proto, 'packet')
+//
+// console.log(proto)
 
-        console.log(data)
+// console.log(model)
 
-        let testum = nbt.writeUncompressed(data)
 
-        console.log(testum)
-
-        const gzip = zlib.createGzip()
-
-        zlib.deflate(testum, (err, buffer) => {
-            if (!err) {
-                console.log(buffer.toString('base64'))
-
-                fs.writeFile('arcd-car7.schematic', buffer, function(error, data) {
-                    if (error) {
-                        console.log(error)
-                    } else {
-                        console.log('Success')
-                    }
-                })
-
-            } else {
-                console.log('error:', err)
+// https://github.com/ProtoDef-io/node-protodef/blob/master/example.js
+const exampleProtocol = {
+  'container': 'native',
+  'varint': 'native',
+  'byte': 'native',
+  'bool': 'native',
+  'switch': 'native',
+  'entity_look': [
+    'container',
+    [
+      {
+        'name': 'entityId',
+        'type': 'varint'
+      },
+      {
+        'name': 'yaw',
+        'type': 'i8'
+      },
+      {
+        'name': 'pitch',
+        'type': 'i8'
+      },
+      {
+        'name': 'onGround',
+        'type': 'bool'
+      }
+    ]
+  ],
+  'packet': [
+    'container',
+    [
+      {
+        'name': 'name',
+        'type': [
+          'mapper',
+          {
+            'type': 'varint',
+            'mappings': {
+              '22': 'entity_look'
             }
-        })
+          }
+        ]
+      },
+      {
+        'name': 'params',
+        'type': [
+          'switch',
+          {
+            'compareTo': 'name',
+            'fields': {
+              'entity_look': 'entity_look'
+            }
+          }
+        ]
+      }
+    ]
+  ]
+}
 
+const proto = new ProtoDef()
+proto.addTypes(exampleProtocol)
+const parser = new Parser(proto, 'packet')
+const serializer = new Serializer(proto, 'packet')
 
+serializer.write({
+  name: 'entity_look',
+  params: {
+    'entityId': 1,
+    'yaw': 1,
+    'pitch': 1,
+    'onGround': true
+  }
+})
+serializer.pipe(parser)
 
-
-        // console.log(data.value.stringTest.value);
-        // console.log(data.value['nested compound test'].value);
-    });
-});
+parser.on('data', function (chunk) {
+  console.log(JSON.stringify(chunk, null, 2))
+})

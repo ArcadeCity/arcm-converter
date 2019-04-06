@@ -12,6 +12,7 @@
   "dependencies": {
     "fs": "0.0.1-security",
     "prismarine-nbt": "^1.2.1",
+    "protodef": "^1.6.9",
     "zlib": "^1.0.5"
   }
 }
