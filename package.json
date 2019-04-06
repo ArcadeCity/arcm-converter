@@ -1,7 +1,7 @@
 {
   "name": "@arcadecity/arcm-converter",
   "version": "0.1.0",
-  "description": "Convert models to the compressed .arcm format",
+  "description": "Convert .vox models to .arcm",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
@@ -11,7 +11,6 @@
   "license": "GPL-3.0",
   "dependencies": {
     "fs": "0.0.1-security",
-    "prismarine-nbt": "^1.2.1",
     "protodef": "^1.6.9",
     "zlib": "^1.0.5"
   }

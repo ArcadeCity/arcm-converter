@@ -29,8 +29,6 @@ parser.on('data', function (chunk) {
 
     let firstBuffer = chunk.buffer
 
-    console.log('So the buffer is:', firstBuffer)
-
     const gzip = zlib.createGzip()
 
     zlib.deflate(firstBuffer, (err, buffer) => {
