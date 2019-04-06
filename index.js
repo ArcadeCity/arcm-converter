@@ -32,7 +32,7 @@ zlib.deflate(testum, (err, buffer) => {
     if (!err) {
         console.log(buffer.toString('base64'))
 
-        fs.writeFile('arcd-car8.schematic', buffer, function(error, data) {
+        fs.writeFile('test1.arcm', buffer, function(error, data) {
             if (error) {
                 console.log(error)
             } else {
