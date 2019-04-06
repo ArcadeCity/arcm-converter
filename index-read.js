@@ -16,6 +16,7 @@ fs.readFile(filename, function(error, data) {
             let testum = proto.parsePacketBuffer('packet', buffer)
             console.log(testum)
             console.log('blocks:', testum.data.params.blocks)
+            console.log('palette:', testum.data.params.palette)
         }
     });
 

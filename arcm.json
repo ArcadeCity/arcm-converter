@@ -26,6 +26,10 @@
             {
                 "name": "blocks",
                 "type": "byteArray"
+            },
+            {
+                "name": "palette",
+                "type": "byteArray"
             }
         ]
     ],

@@ -16,7 +16,8 @@ let payload = {
         width: 2,
         height: 2,
         length: 2,
-        blocks: [1,1,1,1,1,0,1,1]
+        blocks: [1,1,1,2,1,0,1,1],
+        palette: [28,19,58,-4,58,87]
     }
 }
 
