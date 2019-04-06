@@ -9,7 +9,7 @@ proto.addTypes(exampleProtocol)
 const parser = new Parser(proto, 'packet')
 const serializer = new Serializer(proto, 'packet')
 
-serializer.write({
+let payload = {
   name: 'entity_look',
   params: {
     'entityId': 1,
@@ -17,9 +17,16 @@ serializer.write({
     'pitch': 1,
     'onGround': true
   }
-})
-serializer.pipe(parser)
+}
 
-parser.on('data', function (chunk) {
-  console.log(JSON.stringify(chunk, null, 2))
-})
+let buff = proto.createPacketBuffer('entity_look', payload.params)
+
+console.log('buff:', buff)
+//
+// serializer.write(payload)
+//
+// serializer.pipe(parser)
+//
+// parser.on('data', function (chunk) {
+//   console.log(JSON.stringify(chunk, null, 2))
+// })
