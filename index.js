@@ -11,12 +11,22 @@ proto.addTypes(exampleProtocol)
 const parser = new Parser(proto, 'packet')
 const serializer = new Serializer(proto, 'packet')
 
+// let payload = {
+//   name: 'arcmodel',
+//   params: {
+//       version: 1,
+//       width: 2,
+//       height: 2,
+//       length: 2
+//   }
+// }
+
 let payload = {
   name: 'entity_look',
   params: {
-      entityId: 31,
+      entityId: 11,
       yaw: 22,
-      pitch: -121,
+      pitch: 33,
       onGround: true
   }
 }
@@ -34,24 +44,32 @@ parser.on('data', function (chunk) {
 
     console.log('So the buffer is:', firstBuffer)
 
-    const gzip = zlib.createGzip()
-
-    zlib.deflate(firstBuffer, (err, buffer) => {
-        if (!err) {
-            console.log(buffer.toString('base64'))
-
-            fs.writeFile('test5.arcm', buffer, function(error, data) {
-                if (error) {
-                    console.log(error)
-                } else {
-                    console.log('Success')
-                }
-            })
-
+    fs.writeFile('test8.arcm', firstBuffer, function(error, data) {
+        if (error) {
+            console.log(error)
         } else {
-            console.log('error:', err)
+            console.log('Success')
         }
     })
+
+    // const gzip = zlib.createGzip()
+    //
+    // zlib.deflate(firstBuffer, (err, buffer) => {
+    //     if (!err) {
+    //         console.log(buffer.toString('base64'))
+    //
+    //         fs.writeFile('test6.arcm', buffer, function(error, data) {
+    //             if (error) {
+    //                 console.log(error)
+    //             } else {
+    //                 console.log('Success')
+    //             }
+    //         })
+    //
+    //     } else {
+    //         console.log('error:', err)
+    //     }
+    // })
 
 
 
