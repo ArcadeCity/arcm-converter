@@ -15,7 +15,8 @@ let payload = {
         version: 1,
         width: 2,
         height: 2,
-        length: 2
+        length: 2,
+        blocks: [1,1,1,1,1,0,1,1]
     }
 }
 

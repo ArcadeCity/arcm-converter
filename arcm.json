@@ -22,29 +22,19 @@
             {
                 "name": "length",
                 "type": "i8"
+            },
+            {
+                "name": "blocks",
+                "type": "byteArray"
             }
         ]
     ],
-    "entity_look": [
-        "container",
-        [
-            {
-                "name": "entityId",
-                "type": "varint"
-            },
-            {
-                "name": "yaw",
-                "type": "i8"
-            },
-            {
-                "name": "pitch",
-                "type": "i8"
-            },
-            {
-                "name": "onGround",
-                "type": "bool"
-            }
-        ]
+    "byteArray": [
+        "array",
+        {
+            "countType": "i32",
+            "type": "i8"
+        }
     ],
     "packet": [
         "container",
@@ -56,8 +46,7 @@
                     {
                         "type": "varint",
                         "mappings": {
-                            "22": "entity_look",
-                            "44": "arcmodel"
+                            "1": "arcmodel"
                         }
                     }
                 ]
@@ -69,7 +58,6 @@
                     {
                         "compareTo": "name",
                         "fields": {
-                            "entity_look": "entity_look",
                             "arcmodel": "arcmodel"
                         }
                     }
