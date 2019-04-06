@@ -6,10 +6,45 @@ const Serializer = require('protodef').Serializer
 const Parser = require('protodef').Parser
 
 var model = {
-    width: 2, // x
-    height: 2, // y
-    length: 2, // z
-    blocks: [1,1,1,0,1,1,1,1]
+    type: 'nbt',
+    name: 'Arca Schematic',
+    data: {
+        Width: { // x
+            type: 'short',
+            value: 2
+        },
+        Height: { // y
+            type: 'short',
+            value: 2
+        },
+        Length: { // z
+            type: 'short',
+            value: 2
+        },
+        Blocks: {
+            type: 'byteArray',
+            value: [1,1,1,0,1,1,1,1]
+        }
+    }
+}
+
+var testData = {
+    type: 'i8',
+    description: '8-bit bytes',
+    data: [
+      {
+        buffer: Buffer.from([0]),
+        value: 0
+      },
+      {
+        buffer: Buffer.from([127]),
+        value: 127
+      },
+      {
+        buffer: Buffer.from([-127]),
+        value: -127
+      }
+    ]
 }
 
 // const protocol = {
@@ -25,82 +60,32 @@ var model = {
 
 // console.log(model)
 
-
-// https://github.com/ProtoDef-io/node-protodef/blob/master/example.js
-const exampleProtocol = {
-  'container': 'native',
-  'varint': 'native',
-  'byte': 'native',
-  'bool': 'native',
-  'switch': 'native',
-  'entity_look': [
-    'container',
-    [
-      {
-        'name': 'entityId',
-        'type': 'varint'
-      },
-      {
-        'name': 'yaw',
-        'type': 'i8'
-      },
-      {
-        'name': 'pitch',
-        'type': 'i8'
-      },
-      {
-        'name': 'onGround',
-        'type': 'bool'
-      }
-    ]
-  ],
-  'packet': [
-    'container',
-    [
-      {
-        'name': 'name',
-        'type': [
-          'mapper',
-          {
-            'type': 'varint',
-            'mappings': {
-              '22': 'entity_look'
-            }
-          }
-        ]
-      },
-      {
-        'name': 'params',
-        'type': [
-          'switch',
-          {
-            'compareTo': 'name',
-            'fields': {
-              'entity_look': 'entity_look'
-            }
-          }
-        ]
-      }
-    ]
-  ]
-}
+const protocol = JSON.stringify(require('./nbt.json'))
 
 const proto = new ProtoDef()
-proto.addTypes(exampleProtocol)
-const parser = new Parser(proto, 'packet')
-const serializer = new Serializer(proto, 'packet')
+proto.addTypes(JSON.parse(protocol))
 
-serializer.write({
-  name: 'entity_look',
-  params: {
-    'entityId': 1,
-    'yaw': 1,
-    'pitch': 1,
-    'onGround': true
-  }
-})
-serializer.pipe(parser)
 
-parser.on('data', function (chunk) {
-  console.log(JSON.stringify(chunk, null, 2))
-})
+let test = proto.createPacketBuffer(testData.type, testData)
+
+console.log(test)
+
+
+//
+// const parser = new Parser(proto, 'packet')
+// const serializer = new Serializer(proto, 'packet')
+//
+// serializer.write({
+//   name: 'entity_look',
+//   params: {
+//     'entityId': 1,
+//     'yaw': 1,
+//     'pitch': 1,
+//     'onGround': true
+//   }
+// })
+// serializer.pipe(parser)
+//
+// parser.on('data', function (chunk) {
+//   console.log(JSON.stringify(chunk, null, 2))
+// })
