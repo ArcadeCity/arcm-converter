@@ -44,32 +44,32 @@ parser.on('data', function (chunk) {
 
     console.log('So the buffer is:', firstBuffer)
 
-    fs.writeFile('test8.arcm', firstBuffer, function(error, data) {
-        if (error) {
-            console.log(error)
-        } else {
-            console.log('Success')
-        }
-    })
-
-    // const gzip = zlib.createGzip()
-    //
-    // zlib.deflate(firstBuffer, (err, buffer) => {
-    //     if (!err) {
-    //         console.log(buffer.toString('base64'))
-    //
-    //         fs.writeFile('test6.arcm', buffer, function(error, data) {
-    //             if (error) {
-    //                 console.log(error)
-    //             } else {
-    //                 console.log('Success')
-    //             }
-    //         })
-    //
+    // fs.writeFile('test8.arcm', firstBuffer, function(error, data) {
+    //     if (error) {
+    //         console.log(error)
     //     } else {
-    //         console.log('error:', err)
+    //         console.log('Success')
     //     }
     // })
+
+    const gzip = zlib.createGzip()
+
+    zlib.deflate(firstBuffer, (err, buffer) => {
+        if (!err) {
+            console.log(buffer.toString('base64'))
+
+            fs.writeFile('test9.arcm', buffer, function(error, data) {
+                if (error) {
+                    console.log(error)
+                } else {
+                    console.log('Success')
+                }
+            })
+
+        } else {
+            console.log('error:', err)
+        }
+    })
 
 
 
