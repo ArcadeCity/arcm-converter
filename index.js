@@ -30,16 +30,38 @@ serializer.pipe(parser)
 parser.on('data', function (chunk) {
     console.log(JSON.stringify(chunk, null, 2))
 
-    let buffer = chunk.buffer
+    let firstBuffer = chunk.buffer
 
-    console.log('So the buffer is:', buffer)
-    fs.writeFile('test4.arcm', buffer, function(error, data) {
-        if (error) {
-            console.log(error)
+    console.log('So the buffer is:', firstBuffer)
+
+    const gzip = zlib.createGzip()
+
+    zlib.deflate(firstBuffer, (err, buffer) => {
+        if (!err) {
+            console.log(buffer.toString('base64'))
+
+            fs.writeFile('test5.arcm', buffer, function(error, data) {
+                if (error) {
+                    console.log(error)
+                } else {
+                    console.log('Success')
+                }
+            })
+
         } else {
-            console.log('Success')
+            console.log('error:', err)
         }
     })
+
+
+
+    // fs.writeFile('test4.arcm', buffer, function(error, data) {
+    //     if (error) {
+    //         console.log(error)
+    //     } else {
+    //         console.log('Success')
+    //     }
+    // })
 
 })
 
