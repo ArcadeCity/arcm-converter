@@ -1,22 +1,57 @@
 {
-  "container": "native",
-  "i8": "native",
-  "switch": "native",
-  "compound": "native",
-  "i16": "native",
-  "i32": "native",
-  "i64": "native",
-  "f32": "native",
-  "f64": "native",
-  "pstring": "native",
-  "shortString": ["pstring",{
-    "countType":"i16"
-  }],
-  "byteArray": [
-    "array",
-    {
-      "countType": "i32",
-      "type": "i8"
-    }
-  ]
+    "container": "native",
+    "varint": "native",
+    "byte": "native",
+    "bool": "native",
+    "switch": "native",
+    "entity_look": [
+        "container",
+        [
+            {
+                "name": "entityId",
+                "type": "varint"
+            },
+            {
+                "name": "yaw",
+                "type": "i8"
+            },
+            {
+                "name": "pitch",
+                "type": "i8"
+            },
+            {
+                "name": "onGround",
+                "type": "bool"
+            }
+        ]
+    ],
+    "packet": [
+        "container",
+        [
+            {
+                "name": "name",
+                "type": [
+                    "mapper",
+                    {
+                        "type": "varint",
+                        "mappings": {
+                            "22": "entity_look"
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "params",
+                "type": [
+                    "switch",
+                    {
+                        "compareTo": "name",
+                        "fields": {
+                            "entity_look": "entity_look"
+                        }
+                    }
+                ]
+            }
+        ]
+    ]
 }
