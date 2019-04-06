@@ -3,38 +3,23 @@ const Serializer = require('protodef').Serializer
 const Parser = require('protodef').Parser
 const fs = require('fs')
 const zlib = require('zlib')
-
-const exampleProtocol = require('./arcm.json')
-
+const protocol = require('./arcm.json')
 const proto = new ProtoDef()
-proto.addTypes(exampleProtocol)
+proto.addTypes(protocol)
 const parser = new Parser(proto, 'packet')
 const serializer = new Serializer(proto, 'packet')
 
-// let payload = {
-//   name: 'arcmodel',
-//   params: {
-//       version: 1,
-//       width: 2,
-//       height: 2,
-//       length: 2
-//   }
-// }
-
 let payload = {
-  name: 'entity_look',
-  params: {
-      entityId: 1,
-      yaw: 2,
-      pitch: 3,
-      onGround: true
-  }
+    name: 'arcmodel',
+    params: {
+        version: 1,
+        width: 2,
+        height: 2,
+        length: 2
+    }
 }
 
-// let testum = proto.createPacketBuffer('entity_look', payload)
-
 serializer.write(payload)
-
 serializer.pipe(parser)
 
 parser.on('data', function (chunk) {
@@ -44,21 +29,13 @@ parser.on('data', function (chunk) {
 
     console.log('So the buffer is:', firstBuffer)
 
-    // fs.writeFile('test8.arcm', firstBuffer, function(error, data) {
-    //     if (error) {
-    //         console.log(error)
-    //     } else {
-    //         console.log('Success')
-    //     }
-    // })
-
     const gzip = zlib.createGzip()
 
     zlib.deflate(firstBuffer, (err, buffer) => {
         if (!err) {
             console.log(buffer.toString('base64'))
 
-            fs.writeFile('test9.arcm', buffer, function(error, data) {
+            fs.writeFile('test10.arcm', buffer, function(error, data) {
                 if (error) {
                     console.log(error)
                 } else {
@@ -70,37 +47,4 @@ parser.on('data', function (chunk) {
             console.log('error:', err)
         }
     })
-
-
-
-    // fs.writeFile('test4.arcm', buffer, function(error, data) {
-    //     if (error) {
-    //         console.log(error)
-    //     } else {
-    //         console.log('Success')
-    //     }
-    // })
-
 })
-
-// console.log('buffer:', testum)
-// console.log('-------')
-//
-// const gzip = zlib.createGzip()
-//
-// zlib.deflate(testum, (err, buffer) => {
-//     if (!err) {
-//         console.log(buffer.toString('base64'))
-//
-//         fs.writeFile('test3.arcm', buffer, function(error, data) {
-//             if (error) {
-//                 console.log(error)
-//             } else {
-//                 console.log('Success')
-//             }
-//         })
-//
-//     } else {
-//         console.log('error:', err)
-//     }
-// })

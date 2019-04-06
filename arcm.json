@@ -4,6 +4,27 @@
     "byte": "native",
     "bool": "native",
     "switch": "native",
+    "arcmodel": [
+        "container",
+        [
+            {
+                "name": "version",
+                "type": "varint"
+            },
+            {
+                "name": "width",
+                "type": "i8"
+            },
+            {
+                "name": "height",
+                "type": "i8"
+            },
+            {
+                "name": "length",
+                "type": "i8"
+            }
+        ]
+    ],
     "entity_look": [
         "container",
         [
@@ -35,7 +56,8 @@
                     {
                         "type": "varint",
                         "mappings": {
-                            "22": "entity_look"
+                            "22": "entity_look",
+                            "44": "arcmodel"
                         }
                     }
                 ]
@@ -47,7 +69,8 @@
                     {
                         "compareTo": "name",
                         "fields": {
-                            "entity_look": "entity_look"
+                            "entity_look": "entity_look",
+                            "arcmodel": "arcmodel"
                         }
                     }
                 ]
