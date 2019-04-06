@@ -14,33 +14,53 @@ const serializer = new Serializer(proto, 'packet')
 let payload = {
   name: 'entity_look',
   params: {
-    'entityId': 1,
-    'yaw': 1,
-    'pitch': 1,
-    'onGround': true
+      entityId: 31,
+      yaw: 22,
+      pitch: -121,
+      onGround: true
   }
 }
 
-let testum = proto.createPacketBuffer('entity_look', payload.params)
+// let testum = proto.createPacketBuffer('entity_look', payload)
 
-console.log('buffer:', testum)
-console.log('-------')
+serializer.write(payload)
 
-const gzip = zlib.createGzip()
+serializer.pipe(parser)
 
-zlib.deflate(testum, (err, buffer) => {
-    if (!err) {
-        console.log(buffer.toString('base64'))
+parser.on('data', function (chunk) {
+    console.log(JSON.stringify(chunk, null, 2))
 
-        fs.writeFile('test1.arcm', buffer, function(error, data) {
-            if (error) {
-                console.log(error)
-            } else {
-                console.log('Success')
-            }
-        })
+    let buffer = chunk.buffer
 
-    } else {
-        console.log('error:', err)
-    }
+    console.log('So the buffer is:', buffer)
+    fs.writeFile('test4.arcm', buffer, function(error, data) {
+        if (error) {
+            console.log(error)
+        } else {
+            console.log('Success')
+        }
+    })
+
 })
+
+// console.log('buffer:', testum)
+// console.log('-------')
+//
+// const gzip = zlib.createGzip()
+//
+// zlib.deflate(testum, (err, buffer) => {
+//     if (!err) {
+//         console.log(buffer.toString('base64'))
+//
+//         fs.writeFile('test3.arcm', buffer, function(error, data) {
+//             if (error) {
+//                 console.log(error)
+//             } else {
+//                 console.log('Success')
+//             }
+//         })
+//
+//     } else {
+//         console.log('error:', err)
+//     }
+// })

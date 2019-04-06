@@ -5,7 +5,7 @@ const fs = require('fs')
 const protocol = require('./arcm.json')
 const proto = new ProtoDef()
 
-const filename = 'test1.arcm'
+const filename = 'test3.arcm'
 
 proto.addTypes(protocol)
 
