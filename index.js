@@ -24,9 +24,9 @@ const serializer = new Serializer(proto, 'packet')
 let payload = {
   name: 'entity_look',
   params: {
-      entityId: 11,
-      yaw: 22,
-      pitch: 33,
+      entityId: 1,
+      yaw: 2,
+      pitch: 3,
       onGround: true
   }
 }
