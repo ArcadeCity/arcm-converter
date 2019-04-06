@@ -10,6 +10,7 @@
   "author": "",
   "license": "GPL-v3",
   "dependencies": {
+    "fs": "0.0.1-security",
     "prismarine-nbt": "^1.2.1"
   }
 }
