@@ -29,22 +29,9 @@ var model = {
 }
 
 var testData = {
-    type: 'i8',
-    description: '8-bit bytes',
-    data: [
-      {
-        buffer: Buffer.from([0]),
-        value: 0
-      },
-      {
-        buffer: Buffer.from([127]),
-        value: 127
-      },
-      {
-        buffer: Buffer.from([-127]),
-        value: -127
-      }
-    ]
+    type: 'byteArray',
+    description: '8-bit byte arrays',
+    data: [1,1,1,1]
 }
 
 // const protocol = {
@@ -66,7 +53,7 @@ const proto = new ProtoDef()
 proto.addTypes(JSON.parse(protocol))
 
 
-let test = proto.createPacketBuffer(testData.type, testData)
+let test = proto.createPacketBuffer('byteArray', [1,1,1,1])
 
 console.log(test)
 
