@@ -1,7 +1,7 @@
 {
-  "name": "@arcadecity/arca-converter",
+  "name": "@arcadecity/arcm-converter",
   "version": "0.1.0",
-  "description": "Convert models to the compressed .arca format",
+  "description": "Convert models to the compressed .arcm format",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
