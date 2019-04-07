@@ -1,7 +1,7 @@
-const fs = require('fs');
-const VoxReader = require('@sh-dave/format-vox').VoxReader;
+const fs = require('fs')
+const VoxReader = require('@sh-dave/format-vox').VoxReader
 const sleep = require('sleep')
-
+const writeIt = require('./index.js')
 const file = 'car.vox' // says x 50, y 100, z 23 ... but should be  x 50, y 23, z 100
 
 fs.readFile("./" + file, async function (err, buffer) {
@@ -51,18 +51,42 @@ fs.readFile("./" + file, async function (err, buffer) {
 
           // Then add color indexes to the array formatted how reader expects it
           let voxelIds = new Array(width * length * height)
-
           voxels.forEach(voxel => {
               let index = voxel[1] * width * length + voxel[2] * width + voxel[0]
-              // if (index > 200000) {
-              //     console.log('UH', voxel)
-              // }
-              voxelIds[index] = voxel[3]
+              let colorIndex = voxel[3]
+              if (colorIndex > 127) {
+                  colorIndex -= 256
+              }
+
+              voxelIds[index] = colorIndex
           })
 
           console.log(file + ' has ' + models.length + ' voxels.')
           console.log('voxelIds has ' + voxelIds.length + ' color indexes including empties')
           console.log('size:', width, height, length)
+
+          // Replace undefineds with 0
+          for (let v = 0; v < voxelIds.length; v++) {
+              if (typeof voxelIds[v] == 'undefined') {
+                  voxelIds[v] = 0
+              }
+          }
+
+          // Build the .arcm payload to be compressed
+          let payload = {
+              name: 'arcmodel',
+              params: {
+                  version: 1,
+                  width,
+                  height,
+                  length,
+                  blocks: voxelIds,
+                  palette: [28,19,58,-4,58,87]
+              }
+          }
+
+          // Serialize and write to file
+          writeIt(payload, file.split('.')[0] + '.arcm')
       }
   })
 
