@@ -14,9 +14,9 @@ let payload = {
     params: {
         version: 1,
         width: 2,
-        height: 2,
-        length: 2,
-        blocks: [1,1,1,2,1,0,1,1],
+        height: 4,
+        length: 4,
+        blocks: [1,1,1,2,1,0,1,1,1,1,1,2,1,0,1,1,1,1,1,2,1,0,1,1,1,1,1,2,1,0,1,1],
         palette: [28,19,58,-4,58,87]
     }
 }
@@ -35,7 +35,7 @@ parser.on('data', function (chunk) {
         if (!err) {
             console.log(buffer.toString('base64'))
 
-            fs.writeFile('test10.arcm', buffer, function(error, data) {
+            fs.writeFile('testblock2.arcm', buffer, function(error, data) {
                 if (error) {
                     console.log(error)
                 } else {
