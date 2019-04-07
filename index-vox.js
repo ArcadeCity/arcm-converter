@@ -16,8 +16,19 @@ fs.readFile("./" + file, async function (err, buffer) {
           const height = vox.sizes[0].z
           const length = vox.sizes[0].y
 
-          var models = vox.models[0]
+          const palette = vox.palette
+          let paletteColors = []
 
+          palette.forEach(color => {
+              let { r, g, b, a } = color
+              r = r <= 127 ? r : r - 256
+              g = g <= 127 ? g : g - 256
+              b = b <= 127 ? b : b - 256
+              a = a <= 127 ? a : a - 256
+              paletteColors.push(r, g, b, a)
+          })
+
+          var models = vox.models[0]
           var i = 0
           var voxels = []
 
@@ -64,6 +75,7 @@ fs.readFile("./" + file, async function (err, buffer) {
           console.log(file + ' has ' + models.length + ' voxels.')
           console.log('voxelIds has ' + voxelIds.length + ' color indexes including empties')
           console.log('size:', width, height, length)
+          console.log('Added paletteColor array of length: ', paletteColors.length)
 
           // Replace undefineds with 0
           for (let v = 0; v < voxelIds.length; v++) {
@@ -81,7 +93,7 @@ fs.readFile("./" + file, async function (err, buffer) {
                   height,
                   length,
                   blocks: voxelIds,
-                  palette: [28,19,58,-4,58,87]
+                  palette: paletteColors
               }
           }
 
