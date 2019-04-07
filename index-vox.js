@@ -2,7 +2,7 @@ const fs = require('fs')
 const VoxReader = require('@sh-dave/format-vox').VoxReader
 const sleep = require('sleep')
 const writeIt = require('./index.js')
-const file = 'car.vox' // says x 50, y 100, z 23 ... but should be  x 50, y 23, z 100
+const file = 'car.vox'
 
 fs.readFile("./" + file, async function (err, buffer) {
   if (err) throw err;
@@ -13,8 +13,8 @@ fs.readFile("./" + file, async function (err, buffer) {
           return
       } else {
           const width = vox.sizes[0].x
-          const height = vox.sizes[0].y // ?? - check .vox y/x inversion
-          const length = vox.sizes[0].z
+          const height = vox.sizes[0].z
+          const length = vox.sizes[0].y
 
           var models = vox.models[0]
 
@@ -30,7 +30,7 @@ fs.readFile("./" + file, async function (err, buffer) {
               model.z = nowY
               model.y = nowZ
 
-              voxels.push([model.x, model.z, model.y, model.colorIndex])
+              voxels.push([model.x, model.y, model.z, model.colorIndex])
           })
 
           // Then sort by y, z, x so we build wide, then long, then tall
