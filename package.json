@@ -13,6 +13,7 @@
     "@sh-dave/format-vox": "^0.1.5",
     "fs": "0.0.1-security",
     "protodef": "^1.6.9",
+    "sleep": "^6.0.0",
     "zlib": "^1.0.5"
   }
 }
